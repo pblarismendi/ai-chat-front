@@ -1,0 +1,6 @@
+# Este archivo define quién es responsable de revisar y aprobar los cambios en diferentes partes del código
+# Formato: RUTA USUARIO1 USUARIO2 ...
+# Para más información: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Estos propietarios serán los revisores predeterminados para todos los pull requests
+* @pblarismendi

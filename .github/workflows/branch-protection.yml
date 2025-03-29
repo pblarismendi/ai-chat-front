@@ -1,0 +1,30 @@
+name: Branch Protection Rules
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check-owner:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if PR author is repository owner
+        id: check-owner
+        run: |
+          REPO_OWNER="${{ github.repository_owner }}"
+          PR_AUTHOR="${{ github.event.pull_request.user.login }}"
+
+          if [ "$REPO_OWNER" = "$PR_AUTHOR" ]; then
+            echo "PR author is the repository owner, bypassing required reviews"
+            echo "is_owner=true" >> $GITHUB_OUTPUT
+          else
+            echo "PR author is not the repository owner, reviews required"
+            echo "is_owner=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Notify for required reviews
+        if: steps.check-owner.outputs.is_owner == 'false'
+        run: |
+          echo "⚠️ This PR requires review from the repository owner before merging"
+          echo "Please wait for approval before merging this PR"
